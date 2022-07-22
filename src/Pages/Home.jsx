@@ -5,16 +5,20 @@ import {axiosRequest} from '../axios'
 import { useEffect } from "react";
 import { useState } from "react";
 import {  useNavigate } from "react-router-dom";
-import  {delete_user} from '../Redux/userReducer'
-import { useDispatch } from "react-redux";
+import  {delete_user,getall} from '../Redux/userReducer'
+import { useDispatch, useSelector } from "react-redux";
 const Home = () => {
 
 const [userList,setUserList]=useState([])
 
 const dispatch = useDispatch();
+//  const users=useSelector(state=>state.user.value)
+//  console.log(users)
 const navigate = useNavigate();
-
+console.log("Ninu")
   useEffect(() => {
+    console.log("Ninu")
+// dispatch(getall)
     const getUser=async()=>{
       try {
         const res=await axiosRequest.get(`/getAll`);
@@ -23,7 +27,7 @@ const navigate = useNavigate();
       }
     }
  getUser()
-  }, [])
+  }, [userList])
   
  const editUser=(id)=>{
   navigate(`/edit/${id}`);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import {
   Button,
@@ -21,6 +21,7 @@ const AddUser = () => {
   const [category, setCategory] = useState("");
   const [files,setFiles]=useState('')
   const [error,setError]=useState({})
+  const [isSubmit,setIsSubmit]=useState(false)
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,19 +29,25 @@ const AddUser = () => {
 
  const submitdata =  () => {
   setError(validateForm(type,description,category))
+  setIsSubmit(true)
+ 
 
-  if(!error){
-    const formData=new FormData();
-  formData.append('type',type)
-  formData.append('description',description)
-  formData.append('category',category)
-  formData.append('files',files)
-
-   dispatch(create_user(formData))
-    navigate("/");
-  }
   
   };
+  useEffect(() => {
+    if(Object.keys(error).length===0 && isSubmit){
+                const formData=new FormData();
+        formData.append('type',type)
+        formData.append('description',description)
+        formData.append('category',category)
+        if(files)
+          formData.append('files',files)
+      
+         dispatch(create_user(formData))
+          navigate("/");
+        }
+  }, [error, type,dispatch, description, category,isSubmit,files,navigate])
+  
 
   const validateForm=(type,description,category)=>{
     const errors={}

@@ -22,13 +22,14 @@ const EditUser = () => {
   const [category, setCategory] = useState("");
   const [files, setFiles] = useState("");
   const [error, setError] = useState({});
+  const [isSubmit,setIsSubmit]=useState(false)
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
     const userList = async (id) => {
-      // console.log("ninu"+id);
+     
       try {
         const res = await axiosRequest.get(`/getdetails/${id}`);
         console.log("response" + JSON.stringify(res.data.getall));
@@ -39,19 +40,24 @@ const EditUser = () => {
       } catch {}
     };
     userList(id);
+
   }, [id]);
 
   const submitdata = () => {
     setError(validateForm(type, description, category));
-
-    if (!error) {
+    setIsSubmit(true)
+    
+    if(Object.keys(error).length===0 && isSubmit) {
+   
       dispatch(edit_user({ id, type, description, category }));
       navigate("/");
     }
+   
   };
  
   const validateForm=(type,description,category)=>{
     const errors={}
+   
     if(!type)
     errors.topic="Topic not found"
 
@@ -78,6 +84,7 @@ const EditUser = () => {
                 placeholder="Type"
                 id="form-input-first-name"
               />
+               <p style={{color:"red"}}>{error.topic}</p>
               <Form.Input
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -85,6 +92,7 @@ const EditUser = () => {
                 label="Description"
                 placeholder="Description"
               />
+               <p style={{color:"red"}}>{error.description}</p>
               <Form.Input
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
@@ -92,8 +100,10 @@ const EditUser = () => {
                 label="Category"
                 placeholder="Category"
               />
-              {!files && (
-                <img src={`http://localhost:5000/${files}`} height="200" alt=""></img>
+          <p style={{color:"red"}}>{error.category}</p>
+              {files.length>0 && (
+                //<img src={`https://merncurd.herokuapp.com/${files}`} height="200" alt=""></img>
+                <img src={`http://localhost:5000/${files}`} height="200"  alt=""></img>
               )}
               <Button onClick={submitdata} fluid primary type="submit">
                 Submit
