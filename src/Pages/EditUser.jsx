@@ -102,8 +102,8 @@ const EditUser = () => {
               />
           <p style={{color:"red"}}>{error.category}</p>
               {files.length>0 && (
-                //<img src={`https://merncurd.herokuapp.com/${files}`} height="200" alt=""></img>
-                <img src={`http://localhost:5000/${files}`} height="200"  alt=""></img>
+                <img src={`https://merncurd.herokuapp.com/${files}`} height="200" alt=""></img>
+                // <img src={`http://localhost:5000/${files}`} height="200"  alt=""></img>
               )}
               <Button onClick={submitdata} fluid primary type="submit">
                 Submit

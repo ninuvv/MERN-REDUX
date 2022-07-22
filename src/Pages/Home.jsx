@@ -5,8 +5,8 @@ import {axiosRequest} from '../axios'
 import { useEffect } from "react";
 import { useState } from "react";
 import {  useNavigate } from "react-router-dom";
-import  {delete_user,getall} from '../Redux/userReducer'
-import { useDispatch, useSelector } from "react-redux";
+import  {delete_user} from '../Redux/userReducer'
+import { useDispatch } from "react-redux";
 const Home = () => {
 
 const [userList,setUserList]=useState([])
